@@ -51,7 +51,7 @@
 
                             </div>
 
-                            <!-- Dropdown 
+                            <!-- Dropdown -->
                             <div class="col-md-12">
                                 <form method="get" class="row g-2 align-items-center">
                                     <div class="col-auto">
@@ -59,11 +59,20 @@
                                     </div>
                                     <div class="col-auto">
                                         <select class="form-control form-control-sm" id="smallSelect" name="sort_by">
-                                            <option value="name" {% if request.GET.sort_by == "name" %}selected{% endif %}>
-                                            Name              
+                                            <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>
+                                            Title              
                                             </option>
-                                            <option value="college__college_name" {% if request.GET.sort_by == "college__college_name" %}selected{% endif %}>
-                                            College
+                                            <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>
+                                            Status              
+                                            </option>
+                                            <option value="priority__prior_name" {% if request.GET.sort_by == "priority__prior_name" %}selected{% endif %}>
+                                            Priority              
+                                            </option>
+                                            <option value="category__name" {% if request.GET.sort_by == "category__name" %}selected{% endif %}>
+                                            Category              
+                                            </option>
+                                            <option value="deadline" {% if request.GET.sort_by == "deadline" %}selected{% endif %}>
+                                            Deadline
                                             </option>
                                         </select>
                                     </div>
@@ -72,7 +81,7 @@
                                     </div>
                                 </form>
 
-                            </div> -->
+                            </div> 
 
                             <!--Table -->
                             <table class="table table-striped mt-3">

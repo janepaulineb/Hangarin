@@ -13,7 +13,7 @@ class TaskAdmin(admin.ModelAdmin):
 class SubTaskAdmin(admin.ModelAdmin):
     list_display = ("title", "status", "parent_task_name")
     list_filter = ("status",)
-    search_fields = ("title",)
+    search_fields = ("title", "parent_task__title")
 
     def parent_task_name(self, obj):
         return obj.parent_task.title
@@ -37,4 +37,4 @@ class PriorityAdmin(admin.ModelAdmin):
 class NoteAdmin(admin.ModelAdmin):
     list_display = ("task", "content", "created_at")
     list_filter = ("created_at",)
-    search_fields = ("content",)
+    search_fields = ("content", "task__title")

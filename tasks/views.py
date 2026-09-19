@@ -33,6 +33,12 @@ class PriorityList(ListView):
                 Q(prior_name__icontains=query)
             )
         return qs
+    """def get_ordering(self):
+        allowed = ["prog_name", "college__college_name"]
+        sort_by = self.request.GET.get("sort_by")
+        if sort_by in allowed:
+            return sort_by
+        return "prog_name"""
 
 class PriorityUpdateView(UpdateView):
     model = Priority
@@ -96,11 +102,15 @@ class TaskList(ListView):
             if query:
                 qs = qs.filter(
                     Q(title__icontains=query) |
-                    Q(description__icontains=query) |
-                    Q(category__name__icontains=query) |
-                    Q(priority__prior_name__icontains=query)
+                    Q(description__icontains=query)
                 )
             return qs
+    def get_ordering(self):
+            allowed = ["title","status","priority__prior_name","category__name","deadline"]
+            sort_by = self.request.GET.get("sort_by")
+            if sort_by in allowed:
+                return sort_by
+            return "title"
 
 class TaskUpdateView(UpdateView):
     model = Task
@@ -123,17 +133,22 @@ class NoteList(ListView):
     context_object_name = 'note'
     template_name = "note_list.html"
     paginate_by = 5
-    ordering = ["task"]
+    ordering = ["task__title"]
 
     def get_queryset(self):
             qs = super().get_queryset()
             query = self.request.GET.get('q')
             if query:
                 qs = qs.filter(
-                    Q(content__icontains=query) |
-                    Q(task__title__icontains=query)
+                    Q(content__icontains=query)
                 )
             return qs
+    """def get_ordering(self):
+        allowed = ["task","created_at"]
+        sort_by = self.request.GET.get("sort_by")
+        if sort_by in allowed:
+            return sort_by
+        return "task"""
 
 class NoteUpdateView(UpdateView):
     model = Note
@@ -163,10 +178,15 @@ class SubTaskList(ListView):
             query = self.request.GET.get('q')
             if query:
                 qs = qs.filter(
-                    Q(title__icontains=query) |
-                    Q(parent_task__title__icontains=query)
+                    Q(title__icontains=query)
                 )
             return qs
+    def get_ordering(self):
+                allowed = ["title","status","parent_task__title"]
+                sort_by = self.request.GET.get("sort_by")
+                if sort_by in allowed:
+                    return sort_by
+                return "title"
 
 class SubTaskUpdateView(UpdateView):
     model = SubTask
