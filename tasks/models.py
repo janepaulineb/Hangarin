@@ -9,14 +9,14 @@ class BaseModel(models.Model):
 
 
 class Priority(BaseModel):
-    name = models.CharField(max_length=100)
+    prior_name = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = "Priority"
         verbose_name_plural = "Priorities"
 
     def __str__(self):
-        return self.name
+        return self.prior_name
 
 
 class Category(BaseModel):

@@ -4,7 +4,7 @@ from .models import Task, SubTask, Category, Priority, Note
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("title", "status", "deadline", "priority", "category")
+    list_display = ("title", "description", "status", "deadline", "priority", "category")
     list_filter = ("status", "priority", "category")
     search_fields = ("title", "description")
 
@@ -29,8 +29,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Priority)
 class PriorityAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ("name",)
+    list_display = ("prior_name",)
+    search_fields = ("prior_name",)
 
 
 @admin.register(Note)

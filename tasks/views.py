@@ -3,6 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from tasks.models import Priority, Category, Task, Note, SubTask
 from tasks.forms import PriorityForm, CategoryForm, TaskForm, NoteForm, SubTaskForm
+from django.db.models import Q
 from django.urls import reverse_lazy
 paginate_by = 5
 
@@ -22,6 +23,17 @@ class PriorityList(ListView):
     context_object_name = 'priority'
     template_name = "priority_list.html"
     paginate_by = 5
+    ordering = ["prior_name"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(
+                Q(prior_name__icontains=query)
+            )
+        return qs
+
 class PriorityUpdateView(UpdateView):
     model = Priority
     form_class = PriorityForm
@@ -44,6 +56,17 @@ class CategoryList(ListView):
     context_object_name = 'category'
     template_name = "category_list.html"
     paginate_by = 5
+    ordering = ["name"]
+
+    def get_queryset(self):
+            qs = super().get_queryset()
+            query = self.request.GET.get('q')
+            if query:
+                qs = qs.filter(
+                    Q(name__icontains=query)
+                )
+            return qs
+
 class CategoryUpdateView(UpdateView):
     model = Category
     form_class = CategoryForm
@@ -65,6 +88,20 @@ class TaskList(ListView):
     context_object_name = 'task'
     template_name = "task_list.html"
     paginate_by = 5
+    ordering = ["title"]
+
+    def get_queryset(self):
+            qs = super().get_queryset()
+            query = self.request.GET.get('q')
+            if query:
+                qs = qs.filter(
+                    Q(title__icontains=query) |
+                    Q(description__icontains=query) |
+                    Q(category__name__icontains=query) |
+                    Q(priority__prior_name__icontains=query)
+                )
+            return qs
+
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskForm
@@ -86,6 +123,18 @@ class NoteList(ListView):
     context_object_name = 'note'
     template_name = "note_list.html"
     paginate_by = 5
+    ordering = ["task"]
+
+    def get_queryset(self):
+            qs = super().get_queryset()
+            query = self.request.GET.get('q')
+            if query:
+                qs = qs.filter(
+                    Q(content__icontains=query) |
+                    Q(task__title__icontains=query)
+                )
+            return qs
+
 class NoteUpdateView(UpdateView):
     model = Note
     form_class = NoteForm
@@ -107,6 +156,18 @@ class SubTaskList(ListView):
     context_object_name = 'subtask'
     template_name = "subtask_list.html"
     paginate_by = 5
+    ordering = ["title"]
+
+    def get_queryset(self):
+            qs = super().get_queryset()
+            query = self.request.GET.get('q')
+            if query:
+                qs = qs.filter(
+                    Q(title__icontains=query) |
+                    Q(parent_task__title__icontains=query)
+                )
+            return qs
+
 class SubTaskUpdateView(UpdateView):
     model = SubTask
     form_class = SubTaskForm

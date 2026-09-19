@@ -80,6 +80,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Title</th>
+                                        <th scope="col">Description</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Deadline</th>
                                         <th scope="col">Priority</th>
@@ -92,6 +93,7 @@
                                     {% for object in task %}
                                     <tr>
                                         <td>{{ object.title }}</td>
+                                        <td>{{ object.description }}</td>
                                         <td>{{ object.status }}</td>
                                         <td>{{ object.deadline }}</td>
                                         <td>{{ object.priority }}</td>
