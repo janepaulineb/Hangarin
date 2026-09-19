@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from tasks.models import Priority, Category, Task, Note, SubTask
 from tasks.forms import PriorityForm, CategoryForm, TaskForm, NoteForm, SubTaskForm
 from django.db.models import Q
+from django.utils import timezone
 from django.urls import reverse_lazy
 paginate_by = 5
 
@@ -11,6 +12,19 @@ class HomePageView(ListView) :
     model = Priority
     context_object_name = 'home'
     template_name = "home.html" 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_tasks"] = Task.objects.count()
+        context["total_category"] = Category.objects.count()
+        context["total_notes"] = Note.objects.count()
+        context["total_subtasks"] = SubTask.objects.count()
+        completed_tasks = Task.objects.filter(status="Completed").count()
+        context["status"] = completed_tasks
+        completed_stasks = SubTask.objects.filter(status="Completed").count()
+        context["status_sub"] = completed_stasks
+        return context
+    
 
 #PRIORITY
 class PriorityCreateView(CreateView):
