@@ -5,10 +5,11 @@ from tasks.models import Priority, Category, Task, Note, SubTask
 from tasks.forms import PriorityForm, CategoryForm, TaskForm, NoteForm, SubTaskForm
 from django.db.models import Q
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 paginate_by = 5
 
-class HomePageView(ListView) :
+class HomePageView(LoginRequiredMixin, ListView) :
     model = Priority
     context_object_name = 'home'
     template_name = "home.html" 
