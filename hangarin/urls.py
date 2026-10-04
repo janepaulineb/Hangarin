@@ -32,7 +32,8 @@ from tasks import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/",include("allauth.urls")), 
+    path("accounts/",include("allauth.urls")),
+    path('', include('pwa.urls')),
     path('', views.HomePageView.as_view(), name='home'),
 
     path('priority-list', PriorityList.as_view(), name='priority-list'),
